@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\UserCollection;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,10 +23,32 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/users', function(){
+Route::post('/register', [AuthController::class,'register'])->name('register');
+Route::post('/login', [AuthController::class,'login'])->name('login');
+
+
+Route::middleware('auth:sanctum')->get('/users', function(){
     return new UserCollection(User::paginate());
 });
 
-Route::get('/user/{id}', function(string $id){
+Route::middleware('auth:sanctum')->get('/user/{id}', function(string $id){
     return new UserResource(User::findOrFail($id));
 });
+
+// Route::post('/login', function(Request $request){
+//     $credentials = $request->only(['email', 'password']);
+//     if(Auth::attempt($credentials)){
+//         $user = Auth::user();
+//         $token = $user->createToken('auth-token')->plainTextToken;
+//         return ['access_token', $token];
+//     }else{
+//         response()->json(['error', 'Unauthorized']);
+//     }
+// });
+
+
+// Route::middleware('auth:sanctum')->post('/tokens/create', function (Request $request) {
+//     $token = $request->user()->createToken($request->token_name);
+ 
+//     return ['token' => $token->plainTextToken];
+// });
