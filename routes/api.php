@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
+use App\Http\Resources\UserCollection;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +19,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::get('/users', function(){
+    return new UserCollection(User::paginate());
+});
+
+Route::get('/user/{id}', function(string $id){
+    return new UserResource(User::findOrFail($id));
 });
