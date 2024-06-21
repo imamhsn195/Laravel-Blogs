@@ -28,6 +28,6 @@ class DeleteForm extends Component
      */
     public function render()
     {
-        return view('components.delete-form');
+        return view('components.tables.delete-form');
     }
 }

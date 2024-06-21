@@ -5,9 +5,9 @@
     </h2>
 </x-slot>
 <x-slot name="body">
-    <x-table>
+    <x-tables.table>
         <x-slot name="body">
-            <x-anchor href="{{ route('posts.create') }}" class="btn btn-primary" text="Create Post"/>
+            <x-tables.anchor href="{{ route('posts.create') }}" class="btn btn-primary" text="Create Post"/>
                 <x-slot name="tHead">
                         <tr>
                             <th class="px-6 py-3 text-left">
@@ -37,8 +37,8 @@
                                     {{ $post->content }}
                                 </td>
                                 <td class="px-6 py-3 text-center">
-                                    <x-anchor href="{{ route('posts.show', $post->id) }}" class="btn btn-info" text="View"/> |
-                                    <x-anchor href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning" text="Edit"/> |
+                                    <x-tables.anchor href="{{ route('posts.show', $post->id) }}" class="btn btn-info" text="View"/> |
+                                    <x-tables.anchor href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning" text="Edit"/> |
                                     <x-delete-form :action="route('posts.destroy', $post->id)" class="additional-classes"/>
                                 </td>
                             </tr>

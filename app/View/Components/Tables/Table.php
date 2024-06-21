@@ -1,24 +1,19 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Tables;
 
 use Illuminate\View\Component;
 
-class Anchor extends Component
+class Table extends Component
 {
-
-    public $href;
-    public $text;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($href, $text)
+    public function __construct()
     {
-        $this->href = $href;
-        $this->text = $text;
+        //
     }
 
     /**
@@ -28,6 +23,6 @@ class Anchor extends Component
      */
     public function render()
     {
-        return view('components.anchor');
+        return view('components.tables.table');
     }
 }
