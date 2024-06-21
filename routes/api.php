@@ -1,14 +1,14 @@
 <?php
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\UserCollection;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\PostController;
-use App\Models\Post;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PostController;
 
 /*
 |--------------------------------------------------------------------------

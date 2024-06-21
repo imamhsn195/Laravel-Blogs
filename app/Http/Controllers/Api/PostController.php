@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Post;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\PostCollection;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
@@ -18,6 +20,9 @@ class PostController extends Controller
      */
     public function index()
     {
+        if(!auth()->user()->can('viewAny', [Post::class, 'index'])){
+            return response()->json(["message"=> "unauthrized request"], 403);
+        }
         return new PostCollection(Post::all());
     }
 
@@ -28,7 +33,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return true;
     }
 
     /**
@@ -39,7 +44,11 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        Post::create(array_merge($request->validated(), ['user_id' => Auth::id()]));
+        if(!Gate::allows('isAdmin')){
+            return response()->json(['message' => 'Admin can only create post.']);
+        }
+
+        $post = Post::create(array_merge($request->validated(), ['user_id' => Auth::id()]));
         return new PostResource($post);
     }
 
