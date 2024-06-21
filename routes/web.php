@@ -23,4 +23,5 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::resource('posts', PostController::class)->middleware(['auth']);
+
 require __DIR__.'/auth.php';
