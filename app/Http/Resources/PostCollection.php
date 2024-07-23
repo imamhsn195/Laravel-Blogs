@@ -16,4 +16,29 @@ class PostCollection extends ResourceCollection
     {
         return parent::toArray($request);
     }
+    
+    /**
+     * Customize the pagination information for the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  array $paginated
+     * @param  array $default
+     * @return array
+     */
+
+     public function paginationInformation($request, $paginated, $default)
+    {
+        // Add a custom link
+        $default['links']['custom'] = 'https://example.com/custom-page';
+
+        // Add additional meta information
+        $default['meta']['custom_meta'] = [
+            'author' => 'John Doe',
+            'version' => '1.0.0',
+            'generated_at' => now()->toDateTimeString(),
+        ];
+
+        return $default;
+    }
+
 }
