@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\PostCollection;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -23,7 +24,7 @@ class PostController extends Controller
         if(!auth()->user()->can('viewAny', [Post::class, 'index'])){
             return response()->json(["message"=> "unauthrized request"], 403);
         }
-        return new PostCollection(Post::all());
+        return new PostCollection(Post::paginate());
     }
 
     /**
@@ -33,7 +34,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return true;
+        return response()->json(['message' => 'Not implemented'], 200);
     }
 
     /**
@@ -44,8 +45,8 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        if(!Gate::allows('isAdmin')){
-            return response()->json(['message' => 'Admin can only create post.']);
+        if (!Gate::allows('isAdmin')) {
+            return response()->json(['message' => 'Admin can only create post.'], 403);
         }
 
         $post = Post::create(array_merge($request->validated(), ['user_id' => Auth::id()]));
@@ -98,6 +99,6 @@ class PostController extends Controller
         $post->delete();
         return response()->json([
             'message' => 'Post deleted successfully.'
-        ]);
+        ], 200);
     }
 }
