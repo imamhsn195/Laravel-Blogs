@@ -38,15 +38,5 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
-        
-        $this->renderable(function (Throwable $e, $request) {
-            return response()->json([
-                'data' => null,
-                'error' => [
-                    'message' => 'Resource not found',
-                    'status_code' => Response::HTTP_NOT_FOUND,
-                ]
-            ], Response::HTTP_NOT_FOUND);
-        });
     }
 }
