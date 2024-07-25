@@ -9,6 +9,7 @@ use App\Http\Resources\PostCollection;
 use App\Http\Resources\UserCollection;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,27 +22,12 @@ use App\Http\Controllers\Api\PostController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::post('/register', [AuthController::class,'register'])->name('register');
 
 Route::post('/login', [AuthController::class,'login'])->name('login');
 
-Route::middleware('auth:sanctum')->get('/users', function(){
-    return new UserCollection(User::paginate());
-});
-
-Route::middleware('auth:sanctum')->get('/user/{id}', function(string $id){
-    return new UserResource(User::findOrFail($id));
-});
-
-
-// Posts API
-
-// Route::post('posts', [PostController::class, 'store']);
-
 Route::middleware('auth:sanctum')->group(function(){
+    Route::post('/logout', [AuthController::class,'logout'])->name('logout');
+    Route::apiResource('users', UserController::class);
     Route::apiResource('posts', PostController::class);
 });
