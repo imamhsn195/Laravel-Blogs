@@ -21,9 +21,6 @@ class PostController extends Controller
      */
     public function index()
     {
-        if(!auth()->user()->can('viewAny', [Post::class, 'index'])){
-            return response()->json(["message"=> "unauthrized request"], 403);
-        }
         return new PostCollection(Post::paginate());
     }
 
@@ -35,10 +32,6 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        if (!Gate::allows('isAdmin')) {
-            return response()->json(['message' => 'Admin can only create post.'], 403);
-        }
-
         $post = Post::create(array_merge($request->validated(), ['user_id' => Auth::id()]));
         return new PostResource($post);
     }
